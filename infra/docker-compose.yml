@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  crud-rust_postgres:
+    platform: linux/x86_64
+    image: postgres:latest
+    container_name: crud-rust_postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: 'trust'
+    volumes:
+      - ./postgresql:/docker-entrypoint-initdb.d
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      - crud-rust_network
+
+networks:
+  crud-rust_network:
+    external: true
