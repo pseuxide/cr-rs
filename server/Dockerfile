@@ -3,7 +3,7 @@ FROM rust
 ADD . /source
 WORKDIR /source
 
-RUN cargo build
+RUN cargo build --release
 
 CMD cargo run
 EXPOSE 3001
