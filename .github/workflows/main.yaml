@@ -12,7 +12,7 @@ env:
   TAG: latest
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
-  SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }}
+  SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }} # service account json
 
 jobs:
   setup-build-publish-deploy:
