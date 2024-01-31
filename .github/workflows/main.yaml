@@ -6,9 +6,9 @@ on:
 
 env:
   PROJECT_ID: crud-rust-412808
-  GAR_REPO_NAME: ${{ secrets.GAR_REPO_NAME }}
-  IMAGE: ${{ secrets.GCP_IMAGE }}
-  REGION: ${{ secrets.GCP_REGION }}
+  GAR_REPO_NAME: crud-rust # repo name of Artifact Registry
+  IMAGE: crud-rust-image # image name to be pushed to Artifact Registry
+  REGION: asia-northeast1 # Tokyo
   TAG: latest
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
