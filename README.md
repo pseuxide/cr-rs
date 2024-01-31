@@ -4,8 +4,8 @@
 ```
 $ cd infra
 $ docker network create crud-rust_network
-$ docker-compose up --build -d
-$ docker-compose logs -f
+$ docker compose up --build -d
+$ docker compose logs -f
 ```
 
 ## server
