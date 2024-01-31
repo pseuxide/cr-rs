@@ -51,4 +51,5 @@ jobs:
         run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       - name: Deploy
-        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated
+        # it may be better to use different service account for Cloud Run
+        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }}
