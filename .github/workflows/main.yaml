@@ -33,9 +33,6 @@ jobs:
         with:
           project_id: $PROJECT_ID
           credentials_json: $SERVICE_ACCOUNT_SECRET_KEY
-          # made with local gcloud cli tool
-          workload_identity_provider: $WORKLOAD_IDENTITY_PROVIDER
-          service_account: $SERVICE_ACCOUNT
 
       # to use gcloud cli tool
       - name: Setup Google Cloud
