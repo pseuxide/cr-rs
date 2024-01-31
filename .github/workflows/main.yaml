@@ -5,7 +5,7 @@ on:
     branches: [ master, prd ]
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  PROJECT_ID: crud-rust-412808
   GAR_REPO_NAME: ${{ secrets.GAR_REPO_NAME }}
   IMAGE: ${{ secrets.GCP_IMAGE }}
   REGION: ${{ secrets.GCP_REGION }}
@@ -13,7 +13,6 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }} # service account json
-  #
 
 jobs:
   setup-build-publish-deploy:
@@ -34,7 +33,6 @@ jobs:
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.SERVICE_ACCOUNT }}
           project_id: ${{ env.PROJECT_ID }}
-          #credentials_json: "${{ env.SERVICE_ACCOUNT_SECRET_KEY }}"
 
       # to use gcloud cli tool
       - name: Setup Google Cloud
