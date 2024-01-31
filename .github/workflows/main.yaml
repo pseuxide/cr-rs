@@ -11,9 +11,13 @@ env:
   IMAGE: ${{ secrets.GCP_IMAGE }}
   REGION: ${{ secrets.GCP_REGION }}
   TAG: latest
+  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+  SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+  SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }}
 
 jobs:
   setup-build-publish-deploy:
+    # need to set permissions for the service account
     permissions:
      contents: 'read'
      id-token: 'write'
@@ -27,14 +31,17 @@ jobs:
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
-          project_id: ${{ secrets.PROJECT_ID }}
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+          project_id: $PROJECT_ID
+          credentials_json: $SERVICE_ACCOUNT_SECRET_KEY
+          # made with local gcloud cli tool
+          workload_identity_provider: $WORKLOAD_IDENTITY_PROVIDER
+          service_account: $SERVICE_ACCOUNT
 
+      # to use gcloud cli tool
       - name: Setup Google Cloud
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ secrets.PROJECT_ID }}
+          project_id: $PROJECT_ID
 
       - name: Configure Docker
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
