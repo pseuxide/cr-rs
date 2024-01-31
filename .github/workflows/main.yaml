@@ -13,7 +13,6 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   SERVICE_ACCOUNT_SECRET_KEY: ${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }} # service account json
-  #
 
 jobs:
   setup-build-publish-deploy:
@@ -31,8 +30,9 @@ jobs:
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
-          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.SERVICE_ACCOUNT }}'
+          project_id: ${{ env.PROJECT_ID }}
           #credentials_json: "${{ env.SERVICE_ACCOUNT_SECRET_KEY }}"
 
       # to use gcloud cli tool
