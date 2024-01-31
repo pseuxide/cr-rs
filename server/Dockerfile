@@ -6,6 +6,5 @@ WORKDIR /source
 RUN cargo build --release
 
 CMD cargo run
-EXPOSE 3001
+EXPOSE 8080
 ENTRYPOINT ["target/release/crud-rust"]
-
