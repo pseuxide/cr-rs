@@ -32,7 +32,7 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           project_id: $PROJECT_ID
-          credentials_json: $SERVICE_ACCOUNT_SECRET_KEY
+          credentials_json: "${{ secrets.SERVICE_ACCOUNT_SECRET_KEY }}"
 
       # to use gcloud cli tool
       - name: Setup Google Cloud
