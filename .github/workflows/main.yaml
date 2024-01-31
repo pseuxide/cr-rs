@@ -30,9 +30,9 @@ jobs:
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
-          project_id: ${{ env.PROJECT_ID }}
-          credentials_json: "${{ env.SERVICE_ACCOUNT_SECRET_KEY }}"
-          # can be workload_identity_provider too but i go with sa' secret key
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          #credentials_json: "${{ env.SERVICE_ACCOUNT_SECRET_KEY }}"
 
       # to use gcloud cli tool
       - name: Setup Google Cloud
