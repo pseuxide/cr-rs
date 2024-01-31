@@ -42,7 +42,7 @@ jobs:
           version: '>= 363.0.0'
 
       - name: Configure Docker
-        run: gcloud --quiet auth configure-docker
+        run: gcloud auth configure-docker
 
       - name: Build
         run: docker build --platform linux/amd64 -t asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/$GAR_REPO_NAME/${{ env.IMAGE }}:${{ env.TAG }} -f server/Dockerfile server # this 'server' at last is the working directory name
