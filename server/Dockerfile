@@ -1,4 +1,4 @@
-FROM rust
+FROM rust:1.75-slim-buster
 
 ADD . /source
 WORKDIR /source
