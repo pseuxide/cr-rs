@@ -38,7 +38,7 @@ jobs:
       - name: Setup Google Cloud
         uses: google-github-actions/setup-gcloud@v2
         with:
-          project_id: ${{ env.PROJECT_ID }}
+        version: '>= 363.0.0'
 
       - name: Configure Docker
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
