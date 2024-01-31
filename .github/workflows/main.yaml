@@ -48,7 +48,7 @@ jobs:
         run: docker build --platform linux/amd64 -t asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/$GAR_REPO_NAME/${{ env.IMAGE }}:${{ env.TAG }} -f server/Dockerfile server
 
       - name: Push
-        run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
+        run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       - name: Deploy
         run: gcloud run deploy ${{ GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated
