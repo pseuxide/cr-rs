@@ -18,7 +18,7 @@ RUN apt-get update -y && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/
 # Copy the built executable and any other necessary files
 COPY --from=builder /source/target/release/crud-rust /usr/local/bin/
 COPY --from=builder /source/entrypoint.sh /entrypoint.sh
-
+COPY --from=builder /source/migrations /migrations
 COPY --from=builder /usr/local/cargo/bin/diesel /usr/local/bin/diesel
 
 RUN chmod +x /entrypoint.sh
