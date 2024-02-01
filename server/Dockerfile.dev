@@ -1,0 +1,21 @@
+FROM rust
+
+RUN apt-get update -y \
+    && apt-get install -y libpq-dev build-essential
+
+RUN cargo install diesel_cli --no-default-features --features postgres
+
+ADD . /source
+WORKDIR /source
+
+RUN cargo build --release
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["./target/release/crud-rust"]
+
+EXPOSE 8080
