@@ -52,7 +52,6 @@ jobs:
         run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       # deploy container to Cloud run
-      #
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
@@ -61,5 +60,5 @@ jobs:
             --region ${{ env.REGION }} \
             --allow-unauthenticated \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
-            --set-env-vars DATABASE_URL='${{ secrets.DATABASE_URL }}' \
+            --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' \
             --add-cloudsql-instances=${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.SQL_INSTANCE_NAME }}
