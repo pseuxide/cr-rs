@@ -52,6 +52,7 @@ jobs:
         run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       # deploy container to Cloud run
+      #
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
