@@ -10,7 +10,7 @@ env:
   IMAGE: crud-rust-image # image name to be pushed to Artifact Registry
   REGION: asia-northeast1 # Tokyo
   TAG: latest
-  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+  WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DB_INSTANCE_NAME: crud-rust-instance
