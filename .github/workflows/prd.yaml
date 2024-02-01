@@ -13,8 +13,8 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DB_INSTANCE_NAME: crud-rust-instance
-  DB_CONNECTION_NAME: ${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.DB_INSTANCE_NAME }}
-  DATABASE_URL: postgres://postgres:ThisIsPublispassword1@34.146.206.38:5432/crud-rust-database?host=/cloudsql/${{ env.DB_CONNECTION_NAME }}&sslmode=disable
+  DB_CONNECTION_NAME: ${{ PROJECT_ID }}:${{ REGION }}:${{ DB_INSTANCE_NAME }}
+  DATABASE_URL: postgres://postgres:ThisIsPublispassword1@34.146.206.38:5432/crud-rust-database?host=/cloudsql/${{ DB_CONNECTION_NAME }}&sslmode=disable
 
 jobs:
   setup-build-publish-deploy:
