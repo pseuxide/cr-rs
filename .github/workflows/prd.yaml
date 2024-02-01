@@ -13,7 +13,7 @@ env:
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
-  CLOUD_SQL_PLOXY_SA_JSON: ${{ secrets.CLOUD_SQL_PLOXY_SA_JSON }}
+  CLOUD_SQL_PROXY_SA_JSON: ${{ secrets.CLOUD_SQL_PLOXY_SA_JSON }}
 
 jobs:
   setup-build-publish-deploy:
@@ -53,4 +53,4 @@ jobs:
 
       # deploy container to Cloud run
       - name: Deploy
-        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }} --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' --set-env-vars GOOGLE_APPLICATION_CREDENTIALS='${{ secrets.CLOUD_SQL_PROXY_SA_JSON }}'
+        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }} --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' --set-env-vars GOOGLE_APPLICATION_CREDENTIALS='${{ env.CLOUD_SQL_PROXY_SA_JSON }}'
