@@ -10,7 +10,7 @@ env:
   IMAGE: crud-rust-image # image name to be pushed to Artifact Registry
   REGION: asia-northeast1 # Tokyo
   TAG: latest
-  WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
+  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   SQL_INSTANCE_NAME: crudrustdb
@@ -52,6 +52,7 @@ jobs:
         run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
       # deploy container to Cloud run
+      # --add-cloudsql-instances is used to connect to Cloud SQL. service-account should have the role "Cloud SQL Client"
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
