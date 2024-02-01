@@ -12,7 +12,7 @@ env:
   TAG: latest
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
-  DATABASE_URL: postgres://postgres:IamPseuxide1@34.146.206.38:5432/crud-rust-database?sslmode=disable
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DB_INSTANCE_NAME: crud-rust-instance
 
 jobs:
