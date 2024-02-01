@@ -14,6 +14,7 @@ env:
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   DB_INSTANCE_NAME: crud-rust-instance
+  DB_CONNECTION_NAME: crud-rust-412808:asia-northeast1:crud-rust-instance
 
 jobs:
   setup-build-publish-deploy:
@@ -67,7 +68,7 @@ jobs:
 
       # deploy container to Cloud run
       # --add-cloudsql-instances is used to connect to Cloud SQL. service-account should have the role "Cloud SQL Client"
-      #aa
+      # --add-cloudsql-instances=${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.DB_INSTANCE_NAME }}
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
@@ -77,4 +78,4 @@ jobs:
             --allow-unauthenticated \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' \
-            --add-cloudsql-instances=${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.DB_INSTANCE_NAME }}
+            --add-cloudsql-instances='${{ env.DB_CONNECTION_NAME }}'
