@@ -53,4 +53,4 @@ jobs:
 
       # deploy container to Cloud run
       - name: Deploy
-        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }} --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' --set-env-vars GOOGLE_APPLICATION_CREDENTIALS='${{ env.CLOUD_SQL_PROXY_SA_JSON }}'
+        run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }} --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}',GOOGLE_APPLICATION_CREDENTIALS='${{ env.CLOUD_SQL_PROXY_SA_JSON }}'
