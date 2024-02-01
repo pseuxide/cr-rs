@@ -1,21 +1,27 @@
-FROM rust:1.75-slim-buster
+FROM rust as builder
 
 RUN apt-get update -y \
     && apt-get install -y libpq-dev build-essential
 
-ADD . /source
 WORKDIR /source
+ADD . /source
 
 RUN cargo install diesel_cli --no-default-features --features postgres
-
 RUN cargo build --release
 
-COPY entrypoint.sh /entrypoint.sh
+# Start a new stage for the runtime environment
+FROM debian:buster-slim
+
+# Copy the built executable and any other necessary files
+COPY --from=builder /source/target/release/crud-rust /usr/local/bin/
+COPY --from=builder /source/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+# Install runtime dependencies
+RUN apt-get update -y && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/*
 
-CMD ["./target/release/crud-rust"]
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["crud-rust"]
 
 EXPOSE 8080

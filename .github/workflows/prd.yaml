@@ -28,6 +28,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # enable Github Actions caching
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
@@ -44,8 +55,11 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
+      # build with Buildkit enabled
       - name: Build
-        run: docker build --platform linux/amd64 -t asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/$GAR_REPO_NAME/${{ env.IMAGE }}:${{ env.TAG }} -f server/Dockerfile server # this 'server' at last is the working directory name
+        run: |
+          export DOCKER_BUILDKIT=1
+          docker build --platform linux/amd64 -t asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/$GAR_REPO_NAME/${{ env.IMAGE }}:${{ env.TAG }} -f server/Dockerfile server # this 'server' at last is the working directory name
 
       # push docker image to Artifact Registry
       - name: Push
@@ -53,6 +67,7 @@ jobs:
 
       # deploy container to Cloud run
       # --add-cloudsql-instances is used to connect to Cloud SQL. service-account should have the role "Cloud SQL Client"
+      #${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.SQL_INSTANCE_NAME }}
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
@@ -62,4 +77,4 @@ jobs:
             --allow-unauthenticated \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' \
-            --add-cloudsql-instances=${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.SQL_INSTANCE_NAME }}
+            --add-cloudsql-instances=crud-rust-412808:asia-northeast1:crudrustdb
