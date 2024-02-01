@@ -17,7 +17,7 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    # need to set permissions for the service account
+    # need to set permissions for the service account to do its job
     permissions:
      contents: 'read'
      id-token: 'write'
@@ -35,7 +35,7 @@ jobs:
           service_account: ${{ env.SERVICE_ACCOUNT }}
           project_id: ${{ env.PROJECT_ID }}
 
-      # to use gcloud cli tool
+      # obrain gcloud cli tool
       - name: Setup Google Cloud
         uses: google-github-actions/setup-gcloud@v2
         with:
@@ -47,9 +47,10 @@ jobs:
       - name: Build
         run: docker build --platform linux/amd64 -t asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/$GAR_REPO_NAME/${{ env.IMAGE }}:${{ env.TAG }} -f server/Dockerfile server # this 'server' at last is the working directory name
 
+      # push docker image to Artifact Registry
       - name: Push
         run: docker push asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }}
 
+      # deploy container to Cloud run
       - name: Deploy
-        # it may be better to use different service account for Cloud Run
         run: gcloud run deploy ${{ env.GAR_REPO_NAME }} --image asia-northeast1-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.IMAGE }}:${{ env.TAG }} --platform managed --region ${{ env.REGION }} --allow-unauthenticated --service-account=${{ env.SERVICE_ACCOUNT }} --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' --set-env-vars GOOGLE_APPLICATION_CREDENTIALS='${{ secrets.CLOUD_SQL_PROXY_SA_JSON }}'
