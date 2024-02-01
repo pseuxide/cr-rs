@@ -55,6 +55,14 @@ jobs:
       - name: Configure Docker
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
+      - name: Run Database Migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          cargo install diesel_cli --no-default-features --features postgres
+          
+          diesel migration run
+
       # build with Buildkit enabled
       # export DOCKER_BUILDKIT=1
       - name: Build
