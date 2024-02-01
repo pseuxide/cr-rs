@@ -67,6 +67,7 @@ jobs:
 
       # deploy container to Cloud run
       # --add-cloudsql-instances is used to connect to Cloud SQL. service-account should have the role "Cloud SQL Client"
+      #aa
       - name: Deploy
         run: |
           gcloud run deploy ${{ env.GAR_REPO_NAME }} \
