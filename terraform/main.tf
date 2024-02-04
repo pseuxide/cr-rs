@@ -19,6 +19,11 @@ import {
   to = google_sql_database_instance.postgres
 }
 
+import {
+  id = "crud-rust-repo"
+  to = google_artifact_registry_repository.gar_repo
+}
+
 # postgres sql
 resource "google_sql_database_instance" "postgres" {
   name             = "crud-rust-instance"
@@ -51,10 +56,6 @@ resource "google_sql_user" "default" {
   password = var.db_password
 }
 
-import {
-  id = "crud-rust-repo"
-  to = google_artifact_registry_repository.gar_repo
-}
 # creating artifact registry
 resource "google_artifact_registry_repository" "gar_repo" {
   provider = google
