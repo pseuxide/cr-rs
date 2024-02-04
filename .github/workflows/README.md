@@ -2,7 +2,7 @@
 - Github Actions Secrets
   - PROJECT_ID: GCPのプロジェクトID。
   - DB_PASSWORD: databaseのパスワード。
-  - TERRAFORM_SA_KEY_JSON: terraform が SQLなどの作成に使用するサービスアカウントのキー。jsonを入れる。必要な権限は以下の通り:
+  - TERRAFORM_SA_KEY_JSON_BASE64: terraform が SQLなどの作成に使用するサービスアカウントのキー。echo コマンドがバグらないようにBASE64でエンコードしておく。必要な権限は以下の通り:
     - Artifact Registry 管理者
     - Cloud SQL 管理者
     - サービス アカウント ユーザー
