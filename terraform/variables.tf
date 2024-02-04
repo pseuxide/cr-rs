@@ -1,8 +1,3 @@
-variable "gcp_credentials" {
-  description = "Content of the GCP credentials JSON file"
-  type        = string
-}
-
 variable "project_id" {
   description = "The GCP project ID"
   type        = string
