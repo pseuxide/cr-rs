@@ -6,7 +6,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  GAR_REPO_NAME: crud-rust # repo name of Artifact Registry which u must create one with this name beforehand.
+  GAR_REPO_NAME: crud-rust-repo # repo name of Artifact Registry which u must create one with this name beforehand.
   IMAGE: crud-rust-image # image name to be pushed to Artifact Registry
   REGION: asia-northeast1 # Tokyo
   TAG: latest
@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # enable Github Actions caching
+      # enable caching rust's dependencies
       - uses: actions/cache@v4
         with:
           path: |
@@ -41,6 +41,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
+      # this is for whatever gcloud does
+      # terraform also uses this auth
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
