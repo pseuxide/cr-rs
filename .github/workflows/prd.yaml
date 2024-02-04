@@ -41,7 +41,6 @@ jobs:
             ${{ runner.os }}-cargo-
 
       # this is for whatever gcloud does
-      # terraform also uses this auth
       - id: "auth"
         uses: "google-github-actions/auth@v2"
         with:
@@ -79,4 +78,4 @@ jobs:
             --allow-unauthenticated \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' \
-            --add-cloudsql-instances='${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.DB_INSTANCE_NAME }}'
+            --add-cloudsql-instances='${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.CLOUD_SQL_INSTANCE_NAME }}'
