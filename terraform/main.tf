@@ -14,11 +14,6 @@ provider "google" {
   region      = "asia-northeast1"
 }
 
-import {
-  id = "crud-rust-instance"
-  to = google_sql_database_instance.postgres
-}
-
 # postgres sql
 resource "google_sql_database_instance" "postgres" {
   name             = "crud-rust-instance"
@@ -51,17 +46,12 @@ resource "google_sql_user" "default" {
   password = var.db_password
 }
 
-import {
-  id = "crud-rust-repo"
-  to = google_artifact_registry_repository.gar_repo
-}
-
 # creating artifact registry
 resource "google_artifact_registry_repository" "gar_repo" {
   provider = google
 
   location      = var.region
-  repository_id = "crud-rust-repo"
+  repository_id = var.gar_repo_name
   format        = "DOCKER"
   description   = "Docker repository for ${var.gar_repo_name}"
 
