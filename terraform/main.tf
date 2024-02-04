@@ -52,7 +52,7 @@ resource "google_sql_user" "default" {
 }
 
 import {
-  id = var.gar_repo_name
+  id = "crud-rust-repo"
   to = google_artifact_registry_repository.gar_repo
 }
 # creating artifact registry
