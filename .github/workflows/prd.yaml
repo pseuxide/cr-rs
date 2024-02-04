@@ -14,8 +14,7 @@ env:
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
   DB_INSTANCE_NAME: crud-rust-instance
   DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  # postgres://postgres:$PASSWORD@$IP_ADDRESS:5432/$DATABASE_NAME?host=/cloudsql/$DB_CONNECTION_NAME&sslmode=disable
-  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  # postgres://postgres:$PASSWORD@$IP_ADDRESS:5432/$DATABASE_NAME?host=/cloudsql/$CLOUD_SQL_CONNECTION_NAME&sslmode=disable
 
 jobs:
   setup-build-publish-deploy:
@@ -83,8 +82,8 @@ jobs:
       - name: Capture Terraform Outputs
         run: |
           terraform output -json > terraform_outputs.json
-          echo "DB_URL=$(jq -r .database_url.value terraform_outputs.json)" >> $GITHUB_ENV
-          echo "CLOUD_SQL_INSTANCE=$(jq -r .cloud_sql_connection_name.value terraform_outputs.json)" >> $GITHUB_ENV
+          echo "DATABASE_URL=$(jq -r .database_url.value terraform_outputs.json)" >> $GITHUB_ENV
+          echo "CLOUD_SQL_CONNECTION_NAME=$(jq -r .cloud_sql_connection_name.value terraform_outputs.json)" >> $GITHUB_ENV
         id: capture_outputs
 
       # obrain gcloud cli tool
@@ -117,4 +116,4 @@ jobs:
             --allow-unauthenticated \
             --service-account=${{ env.SERVICE_ACCOUNT }} \
             --set-env-vars DATABASE_URL='${{ env.DATABASE_URL }}' \
-            --add-cloudsql-instances='${{ env.PROJECT_ID }}:${{ env.REGION }}:${{ env.DB_INSTANCE_NAME }}'
+            --add-cloudsql-instances='${{ env.CLOUD_SQL_CONNECTION_NAME }}'
