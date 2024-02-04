@@ -5,14 +5,16 @@ on:
     branches: [ master, prd ]
 
 env:
-  PROJECT_ID: crud-rust-412808
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GAR_REPO_NAME: crud-rust # repo name of Artifact Registry which u must create one with this name beforehand.
   IMAGE: crud-rust-image # image name to be pushed to Artifact Registry
   REGION: asia-northeast1 # Tokyo
   TAG: latest
   WORKLOAD_IDENTITY_PROVIDER: projects/231062419282/locations/global/workloadIdentityPools/crud-rust-pool/providers/crud-rust-provider
   SERVICE_ACCOUNT: crud-rust-sa@crud-rust-412808.iam.gserviceaccount.com
+  TERRAFORM_SA_KEY_JSON: ${{ secrets.TERRAFORM_SA_KEY_JSON }}
   DB_INSTANCE_NAME: crud-rust-instance
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   # postgres://postgres:$PASSWORD@$IP_ADDRESS:5432/$DATABASE_NAME?host=/cloudsql/$DB_CONNECTION_NAME&sslmode=disable
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -46,6 +48,39 @@ jobs:
           workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ env.SERVICE_ACCOUNT }}
           project_id: ${{ env.PROJECT_ID }}
+
+      # Export Terraform Variables
+      - name: Export Terraform Variables
+        run: |
+          echo "TF_VAR_gcp_credentials=${{ env.TERRAFORM_SA_KEY_JSON }}" >> $GITHUB_ENV
+          echo "TF_VAR_project_id=${{ env.PROJECT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_db_password=${{ env.DB_PASSWORD }}" >> $GITHUB_ENV
+          echo "TF_VAR_gar_repo_name=${{ env.GAR_REPO_NAME }}" >> $GITHUB_ENV
+
+      # Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.7.2"
+
+      # Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
+
+      # Terraform Apply
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      - name: Capture Terraform Outputs
+        run: |
+          terraform output -json > terraform_outputs.json
+          echo "DB_URL=$(jq -r .database_url.value terraform_outputs.json)" >> $GITHUB_ENV
+          echo "CLOUD_SQL_INSTANCE=$(jq -r .cloud_sql_connection_name.value terraform_outputs.json)" >> $GITHUB_ENV
+        id: capture_outputs
 
       # obrain gcloud cli tool
       - name: Setup Google Cloud
