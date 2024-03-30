@@ -1,4 +1,8 @@
-# crud-rust
+# rust-backend-sample
+
+a chunk of backend, frontend and infrastructure code that i made with bonus github actions to automatically deploy server to GCP.
+infra - docker compose with postgresql setup locally
+server - actix-web backend and diesel ormapper
 
 ## infra
 ```
@@ -27,6 +31,3 @@ $ yarn dev
 ```
 
 http://localhost:3000
-
-## Demo
-https://crud-rust.onrender.com/
